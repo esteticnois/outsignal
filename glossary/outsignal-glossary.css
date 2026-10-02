@@ -1,0 +1,119 @@
+/* OutSignal Glossary — стили терминов и плашки-подсказки.
+   Цвета меняются через переменные, без правки остального CSS. */
+:root {
+  --os-term-underline: rgba(180, 140, 0, 0.55);
+  --os-term-hl: #fff1a8;            /* жёлтая подсветка при наведении */
+  --os-term-hl-text: inherit;
+  --os-tip-bg: #1f2328;
+  --os-tip-text: #f5f6f7;
+  --os-tip-muted: #b7bdc6;
+  --os-tip-accent: #ffd84d;
+  --os-tip-radius: 10px;
+  --os-tip-shadow: 0 10px 30px rgba(0, 0, 0, 0.22), 0 2px 6px rgba(0, 0, 0, 0.12);
+  --os-tip-max-width: 320px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --os-term-underline: rgba(255, 216, 77, 0.55);
+    --os-term-hl: rgba(255, 216, 77, 0.28);
+    --os-tip-bg: #f7f7f5;
+    --os-tip-text: #1d1f22;
+    --os-tip-muted: #5b616b;
+    --os-tip-accent: #b38600;
+  }
+}
+
+/* Термин в тексте: ненавязчивое пунктирное подчёркивание, жёлтая подсветка при наведении. */
+.os-term {
+  cursor: help;
+  text-decoration: underline dotted var(--os-term-underline);
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 0.18em;
+  border-radius: 3px;
+  transition: background-color 0.15s ease;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+.os-term--auto { text-decoration-color: transparent; }
+.os-term:hover,
+.os-term:focus-visible,
+.os-term--active {
+  background-color: var(--os-term-hl);
+  color: var(--os-term-hl-text);
+  text-decoration-color: transparent;
+  outline: none;
+}
+.os-term:focus-visible { box-shadow: 0 0 0 2px var(--os-tip-accent); }
+
+/* Плашка */
+.os-gloss-tip {
+  position: absolute;
+  z-index: 2147483000;
+  box-sizing: border-box;
+  max-width: min(var(--os-tip-max-width), calc(100vw - 16px));
+  padding: 10px 12px 11px;
+  background: var(--os-tip-bg);
+  color: var(--os-tip-text);
+  border-radius: var(--os-tip-radius);
+  box-shadow: var(--os-tip-shadow);
+  font: 400 14px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  text-align: left;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.14s ease, transform 0.14s ease;
+  pointer-events: auto;
+}
+.os-gloss-tip[hidden] { display: none; }
+.os-gloss-tip--visible { opacity: 1; transform: none; }
+.os-gloss-tip--below { transform: translateY(-4px); }
+.os-gloss-tip--below.os-gloss-tip--visible { transform: none; }
+
+.os-gloss-tip__head {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px 8px;
+  margin-bottom: 4px;
+}
+.os-gloss-tip__icon {
+  flex: none;
+  align-self: center;
+  display: inline-grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--os-tip-accent);
+  color: #1f2328;
+  font: 700 12px/1 Georgia, "Times New Roman", serif;
+  font-style: italic;
+}
+.os-gloss-tip__term { font-weight: 700; }
+.os-gloss-tip__ipa,
+.os-gloss-tip__pos { color: var(--os-tip-muted); font-size: 12.5px; }
+.os-gloss-tip__pos { font-style: italic; }
+.os-gloss-tip__tr { font-weight: 600; color: var(--os-tip-accent); }
+.os-gloss-tip__note { margin-top: 2px; }
+.os-gloss-tip__src { margin-top: 6px; color: var(--os-tip-muted); font-size: 11.5px; }
+
+.os-gloss-tip__arrow {
+  position: absolute;
+  left: var(--os-arrow-x, 50%);
+  bottom: -6px;
+  width: 12px;
+  height: 12px;
+  margin-left: -6px;
+  background: var(--os-tip-bg);
+  transform: rotate(45deg);
+  border-radius: 2px;
+}
+.os-gloss-tip--below .os-gloss-tip__arrow { bottom: auto; top: -6px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .os-term, .os-gloss-tip { transition: none; }
+}
+@media print {
+  .os-term { text-decoration: none; background: none; }
+  .os-gloss-tip { display: none !important; }
+}
