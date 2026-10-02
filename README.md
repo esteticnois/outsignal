@@ -11,7 +11,7 @@
 
 | Файл | Назначение |
 |---|---|
-| `glossary/outsignal-glossary.js` | Скрипт, ~9 КБ, без зависимостей |
+| `glossary/outsignal-glossary.js` | Скрипт, ~21 КБ с комментариями (~6 КБ в gzip), без зависимостей |
 | `glossary/outsignal-glossary.css` | Стили термина и плашки (цвета — CSS-переменные) |
 | `glossary/glossary.json` | Словарь: термин, словоформы, транскрипция, перевод и пояснение на `uk` и `ru` |
 | `tools/inject-jsonld.mjs` | Статическая вставка JSON-LD в HTML (необязательно) |
