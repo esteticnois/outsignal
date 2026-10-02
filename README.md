@@ -16,6 +16,7 @@
 | `glossary/glossary.json` | Словарь: термин, словоформы, транскрипция, перевод и пояснение на `uk` и `ru` |
 | `tools/inject-jsonld.mjs` | Статическая вставка JSON-LD в HTML (необязательно) |
 | `integrations/wordpress/outsignal-glossary.php` | Готовый mu-plugin для WordPress |
+| `integrations/wordpress/outsignal-image-metadata.php` | mu-plugin: `creditText` / `copyrightNotice` для картинок в JSON-LD |
 | `demo/` | Демо-страницы (`index.html` — украинский, `ru.html` — русский) |
 | `tests/` | Браузерные тесты (Playwright) |
 
@@ -94,6 +95,15 @@
   Тогда браузерный скрипт повторно её не добавляет.
 - `DefinedTerm` — семантическая разметка: она не даёт отдельного расширенного сниппета в выдаче,
   но помогает поисковику понять тематику и терминологию страницы.
+
+### Метаданные изображений (Search Console)
+
+Предупреждения «Отсутствует поле `creditText`» / «`copyrightNotice`» убирает
+`integrations/wordpress/outsignal-image-metadata.php` — положить в `wp-content/mu-plugins/`.
+Он дописывает `creditText`, `copyrightNotice` и `creator` во все `ImageObject` в JSON-LD страницы
+(от Yoast, Rank Math, AIOSEO и т. д.), не трогая уже заполненные поля. Значения и необязательные
+`license` / `acquireLicensePage` задаются константами в `wp-config.php` (см. шапку файла).
+После установки — «Проверить исправление» в отчёте Search Console. Тест: `php tests/image-metadata.test.php`.
 
 ### Почему не `<dfn>`, `<abbr>` или `title`
 
